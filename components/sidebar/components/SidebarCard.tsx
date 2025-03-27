@@ -130,11 +130,10 @@ export default function SidebarDocs(props: SidebarCard) {
                 </div>
                 {/* YEARLY */}
                 <div
-                  className={`relative flex items-center border ${
-                    plan.product === 'prod_QfhcnVrnDf2I75'
+                  className={`relative flex items-center border ${plan.product === 'prod_QfhcnVrnDf2I75'
                       ? 'border-zinc-950 dark:border-white'
                       : 'border-zinc-200 dark:border-zinc-800'
-                  } mb-5 w-full cursor-pointer rounded-md px-4 py-[14px]`}
+                    } mb-5 w-full cursor-pointer rounded-md px-4 py-[14px]`}
                   onClick={() =>
                     setPlan({
                       product: 'prod_QfhcnVrnDf2I75',
@@ -158,11 +157,10 @@ export default function SidebarDocs(props: SidebarCard) {
                 {/* END YEARLY */}
                 {/* MONTHLY */}
                 <div
-                  className={`relative flex items-center border ${
-                    plan.product === 'prod_QfhYC6AAtI5IKW'
+                  className={`relative flex items-center border ${plan.product === 'prod_QfhYC6AAtI5IKW'
                       ? 'border-zinc-950 dark:border-white'
                       : 'border-zinc-200 dark:border-zinc-800'
-                  } mb-7 w-full cursor-pointer rounded-md px-4 py-[14px]`}
+                    } mb-7 w-full cursor-pointer rounded-md px-4 py-[14px]`}
                   onClick={() =>
                     setPlan({
                       product: 'prod_QfhYC6AAtI5IKW',
@@ -181,7 +179,7 @@ export default function SidebarDocs(props: SidebarCard) {
                   </p>
                 </div>
                 {/* END MONTHLY */}
-                {products.map((product: any, key: number) => {
+                {products && products.map((product: any, key: number) => {
                   const price = product?.prices?.find(
                     (price: any) => price.id === plan.price
                   );

@@ -180,7 +180,7 @@ export default function Pricing({ user, products, subscription }: Props) {
             </div>
           </Card>
           {/* CENTER */}
-          {products.map((product) => {
+          {products && products.map((product) => {
             const price = product?.prices?.find(
               (price) => price.id === 'price_1PoM9GDWNoHJSR0zmwpicH8y'
             );
@@ -453,7 +453,7 @@ export default function Pricing({ user, products, subscription }: Props) {
             </div>
           </Card>
           {/* RIGHT */}
-          {products.map((product) => {
+          {products && products.map((product) => {
             const price = product?.prices?.find(
               (price) => price.id === 'price_1PoMDDDWNoHJSR0zjpoiLOzj'
             );
