@@ -12,7 +12,7 @@ const config = {
   prefix: "",
   theme: {
   	container: {
-  		center:  true ,
+  		center: true,
   		padding: '2rem',
   		screens: {
   			sm: '576px',
@@ -47,8 +47,14 @@ const config = {
   	},
   	extend: {
   		fontFamily: {
-  			jakarta: ['Inter', 'sans-serif'],
-  			poppins: ['Poppins', 'sans-serif']
+  			jakarta: [
+  				'Inter',
+  				'sans-serif'
+  			],
+  			poppins: [
+  				'Poppins',
+  				'sans-serif'
+  			]
   		},
   		height: {
   			'300px': '300px',
@@ -60,10 +66,10 @@ const config = {
   			input: 'hsl(var(--input))',
   			ring: 'hsl(var(--ring))',
   			background: 'hsl(var(--background))',
-			bg:{
-				100 :"hsl(var(--app-bg))",
-				900: "hsl(var(--app-bg-dark))"
-			},
+  			bg: {
+  				'100': 'hsl(var(--app-bg))',
+  				'900': 'hsl(var(--app-bg-dark))'
+  			},
   			foreground: 'hsl(var(--foreground))',
   			primary: {
   				DEFAULT: 'hsl(var(--primary))',
@@ -93,6 +99,16 @@ const config = {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))',
   				border: 'hsl(var(--border))'
+  			},
+  			sidebar: {
+  				DEFAULT: 'hsl(var(--sidebar-background))',
+  				foreground: 'hsl(var(--sidebar-foreground))',
+  				primary: 'hsl(var(--sidebar-primary))',
+  				'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+  				accent: 'hsl(var(--sidebar-accent))',
+  				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+  				border: 'hsl(var(--sidebar-border))',
+  				ring: 'hsl(var(--sidebar-ring))'
   			}
   		},
   		borderRadius: {
