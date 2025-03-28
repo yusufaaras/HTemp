@@ -85,7 +85,7 @@ export default function ForgotPassword({ allowEmail, redirectMethod }: ForgotPas
             )}
             <p>
                 <Link href="/dashboard/signin/signup" className="font-medium text-sm dark:text-white">
-                    Don't have an account? Sign up
+                    Don t have an account? Sign up
                 </Link>
             </p>
         </div>

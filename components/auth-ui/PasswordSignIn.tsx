@@ -111,7 +111,7 @@ export default function PasswordSignIn({ allowEmail, redirectMethod }: PasswordS
           href="/dashboard/signin/signup"
           className="font-medium text-foreground dark:text-white text-sm"
         >
-          Don't have an account? Sign up
+          Don t have an account? Sign up
         </Link>
       </p>
     </div>
