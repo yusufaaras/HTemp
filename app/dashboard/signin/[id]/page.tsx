@@ -10,13 +10,15 @@ import {
   getRedirectMethod
 } from '@/utils/auth-helpers/settings';
 
+interface SignInProps {
+  params: { id: string };
+  searchParams: { disable_button: boolean };
+}
+
 export default async function SignIn({
   params,
   searchParams
-}: {
-  params: { id: string };
-  searchParams: { disable_button: boolean };
-}) {
+}: SignInProps) {
   const { allowOauth, allowEmail, allowPassword } = getAuthTypes();
   const viewTypes = getViewTypes();
   const redirectMethod = getRedirectMethod();
