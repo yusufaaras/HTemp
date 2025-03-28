@@ -360,7 +360,7 @@ export default function Assistant(props: Props) {
             <p className="text-center text-xs text-zinc-500 dark:text-white">
               Free Research Preview. ChatGPT may produce inaccurate information
               about people, places, or facts. Consider checking important
-              informations.
+              information.
             </p>
           </div>
         </div>

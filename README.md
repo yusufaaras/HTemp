@@ -7,7 +7,7 @@
 
 <p align="center">
     <a style="color: #09090B; text-decoration: underline;" target="_blank" href="https://horizon-ui.com/boilerplate-shadcn">Website</a> •
-    <a style="color: #09090B; text-decoration: underline;" target="_blank" href="https://horizon-ui.com/docs-boilerplate/shadcn-components/auth-UI">Documentations</a> •
+    <a style="color: #09090B; text-decoration: underline;" target="_blank" href="https://horizon-ui.com/docs-boilerplate/shadcn-components/auth-UI">Documentation</a> •
     <a style="color: #09090B; text-decoration: underline;" target="_blank" href="https://horizon-ui.com/pro">Admin Template</a> •
     <a style="color: #09090B; text-decoration: underline;" target="_blank" href="https://horizon-ui.com/ai-template">AI Template</a> •
     <a style="color: #09090B; text-decoration: underline;" target="_blank" href="https://twitter.com/horizon_ui">Twitter</a>

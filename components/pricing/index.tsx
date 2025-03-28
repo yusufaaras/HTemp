@@ -15,11 +15,11 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import {
-  FaCcAmex,
-  FaCcApplePay,
-  FaCcMastercard,
-  FaCcPaypal,
-  FaCcVisa
+    FaCcAmex,
+    FaCcApplePay,
+    FaCcMastercard,
+    FaCcPaypal,
+    FaCcVisa
 } from 'react-icons/fa';
 import { HiOutlineCheckCircle, HiOutlineXCircle } from 'react-icons/hi2';
 import { MdAttachMoney, MdLock } from 'react-icons/md';
@@ -31,61 +31,68 @@ type Subscription = Database['public']['Tables']['subscriptions']['Row'];
 type Product = Database['public']['Tables']['products']['Row'];
 type Price = Database['public']['Tables']['prices']['Row'];
 interface ProductWithPrices extends Product {
-  prices: Price[];
+    prices: Price[];
 }
 interface PriceWithProduct extends Price {
-  products: Product | null;
+    products: Product | null;
 }
 interface SubscriptionWithProduct extends Subscription {
-  prices: PriceWithProduct | null;
+    prices: PriceWithProduct | null;
 }
 
 interface Props {
-  user: User | null | undefined;
-  products: ProductWithPrices[];
-  subscription: SubscriptionWithProduct | null;
+    user: User | null | undefined;
+    products: ProductWithPrices[];
+    subscription: SubscriptionWithProduct | null;
 }
 
 export default function Pricing({ user, products, subscription }: Props) {
-  const router = useRouter();
-  const [priceIdLoading, setPriceIdLoading] = useState<string>();
-  const currentPath = usePathname();
+    const router = useRouter();
+    const [priceIdLoading, setPriceIdLoading] = useState<string>();
+    const currentPath = usePathname();
 
-  const handleCheckout = async (price: Price) => {
-    setPriceIdLoading(price.id);
+    const handleCheckout = async (price: Price) => {
+        setPriceIdLoading(price.id);
 
-    if (!user) {
-      setPriceIdLoading(undefined);
-      return router.push('/dashboard/signin/signup');
-    }
+        if (!user) {
+            setPriceIdLoading(undefined);
+            return router.push('/dashboard/signin/signup');
+        }
 
-    const { errorRedirect, sessionId } = await checkoutWithStripe(
-      price,
-      currentPath
-    );
+        try {
+            const { errorRedirect, sessionId } = await checkoutWithStripe(
+                price,
+                currentPath
+            );
 
-    if (errorRedirect) {
-      setPriceIdLoading(undefined);
-      return router.push(errorRedirect);
-    }
+            if (errorRedirect) {
+                setPriceIdLoading(undefined);
+                return router.push(errorRedirect);
+            }
 
-    if (!sessionId) {
-      setPriceIdLoading(undefined);
-      return router.push(
-        getErrorRedirect(
-          currentPath,
-          'An unknown error occurred.',
-          'Please try again later or contact a system administrator.'
-        )
-      );
-    }
+            if (!sessionId) {
+                setPriceIdLoading(undefined);
+                return router.push(
+                    getErrorRedirect(
+                        currentPath,
+                        'An unknown error occurred.',
+                        'Please try again later or contact a system administrator.'
+                    )
+                );
+            }
 
-    const stripe = await getStripe();
-    stripe?.redirectToCheckout({ sessionId });
+            const stripe = await getStripe();
+            stripe?.redirectToCheckout({ sessionId });
 
-    setPriceIdLoading(undefined);
-  };
-  const [version, setVersion] = useState('monthly');
+            setPriceIdLoading(undefined);
+        } catch (error) {
+            console.error("Checkout sırasında hata oluştu:", error);
+            setPriceIdLoading(undefined);
+            router.push(getErrorRedirect(currentPath, "Checkout sırasında hata oluştu", "Lütfen tekrar deneyin"));
+        }
+    };
+
+    const [version, setVersion] = useState('monthly');
 
   return (
     <div
@@ -180,7 +187,7 @@ export default function Pricing({ user, products, subscription }: Props) {
             </div>
           </Card>
           {/* CENTER */}
-          {products && products.map((product) => {
+          {products && products.length > 0 && products.map((product) => {
             const price = product?.prices?.find(
               (price) => price.id === 'price_1PoM9GDWNoHJSR0zmwpicH8y'
             );
@@ -453,7 +460,7 @@ export default function Pricing({ user, products, subscription }: Props) {
             </div>
           </Card>
           {/* RIGHT */}
-          {products && products.map((product) => {
+          {products && products.length > 0 && products.map((product) => {
             const price = product?.prices?.find(
               (price) => price.id === 'price_1PoMDDDWNoHJSR0zjpoiLOzj'
             );

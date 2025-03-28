@@ -1,8 +1,5 @@
 const nextConfig = {
-  reactStrictMode: false, // Strict mode kapalı
-  experimental: {
-    serverActions: true, // Server Actions özelliğini etkinleştir
-  },
+  reactStrictMode: false, // changed this to false
   images: {
     domains: [
       'images.unsplash.com',
