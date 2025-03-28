@@ -44,11 +44,11 @@ function Sidebar(props: SidebarProps) {
     const user = useContext(UserContext);
     const userDetails = useContext(UserDetailsContext);
     const [priceIdLoading, setPriceIdLoading] = useState<string>();
-    const modePathname = usePathname();
+    const modePathname = usePathname();  // Move this here
 
     const handleCheckout = async (price: Price) => {
         setPriceIdLoading(price.id);
-        const currentPath = usePathname();
+        const currentPath = modePathname;  // Use the modePathname directly here
         if (!user) {
             setPriceIdLoading(undefined);
             return router.push('/dashboard/signin/signup');
@@ -116,7 +116,7 @@ function Sidebar(props: SidebarProps) {
                                 <Links routes={routes} />
                             </ul>
                         </div>
-                        {/* Free Horizon Card   */}
+                        {/* Free Horizon Card */}
                         <div className="mb-9 mt-7">
                             <div className="flex justify-center">
                                 <SidebarCard handleCheckout={handleCheckout} />
@@ -167,7 +167,5 @@ function Sidebar(props: SidebarProps) {
         </div>
     );
 }
-
-// PROPS
 
 export default Sidebar;
