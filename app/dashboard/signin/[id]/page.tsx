@@ -7,30 +7,37 @@ import {
   getAuthTypes,
   getViewTypes,
   getDefaultSignInView,
-  getRedirectMethod
+  getRedirectMethod,
 } from '@/utils/auth-helpers/settings';
+
+// AuthUI bileşeninin beklediği tipleri tanımlayın
+type ViewPropType =
+  | 'password_signin'
+  | 'email_signin'
+  | 'update_password'
+  | 'signup'
+  | 'forgot_password';
 
 export default async function SignIn({
   params,
-  searchParams
+  searchParams,
 }: {
   params: { id: string };
   searchParams: { disable_button: boolean };
 }) {
   const { allowOauth, allowEmail, allowPassword } = getAuthTypes();
-  const viewTypes = getViewTypes();
+  const viewTypes = getViewTypes() as ViewPropType[]; // getViewTypes'ın doğru tipleri döndürdüğünü varsayıyoruz
   const redirectMethod = getRedirectMethod();
 
-  // Declare 'viewProp' and initialize with the default value
-  let viewProp: string;
+  // Declare 'viewProp' with the correct type
+  let viewProp: ViewPropType;
 
   // Assign url id to 'viewProp' if it's a valid string and ViewTypes includes it
-  if (typeof params.id === 'string' && viewTypes.includes(params.id)) {
-    viewProp = params.id;
+  if (typeof params.id === 'string' && viewTypes.includes(params.id as ViewPropType)) {
+    viewProp = params.id as ViewPropType;
   } else {
-    const preferredSignInView =
-      cookies().get('preferredSignInView')?.value || null;
-    viewProp = getDefaultSignInView(preferredSignInView);
+    const preferredSignInView = (await cookies()).get('preferredSignInView')?.value || null;
+    viewProp = getDefaultSignInView(preferredSignInView) as ViewPropType;
     return redirect(`/dashboard/signin/${viewProp}`);
   }
 
@@ -38,7 +45,7 @@ export default async function SignIn({
   const supabase = createClient();
 
   const {
-    data: { user }
+    data: { user },
   } = await supabase.auth.getUser();
 
   if (user && viewProp !== 'update_password') {
