@@ -77,7 +77,7 @@ export default function EmailSignIn({ allowPassword, redirectMethod }: EmailSign
                     </p>
                     <p>
                         <Link href="/dashboard/signin/signup" className="font-medium text-sm dark:text-white">
-                            Don't have an account? Sign up
+                            Don t have an account? Sign up
                         </Link>
                     </p>
                 </>
