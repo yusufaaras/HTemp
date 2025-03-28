@@ -4,62 +4,64 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 import { cookies } from 'next/headers';
 import {
-    getAuthTypes,
-    getViewTypes,
-    getDefaultSignInView,
-    getRedirectMethod
+  getAuthTypes,
+  getViewTypes,
+  getDefaultSignInView,
+  getRedirectMethod,
 } from '@/utils/auth-helpers/settings';
+import { PageProps } from 'next'; // PageProps'u içe aktarın
 
-interface SignInProps {
-    params: { id: string };
-    searchParams: { disable_button: boolean };
-}
+// AuthUI bileşeninin beklediği tipleri tanımlayın
+type ViewPropType =
+  | 'password_signin'
+  | 'email_signin'
+  | 'update_password'
+  | 'signup'
+  | 'forgot_password';
 
-export default async function SignIn({
-    params,
-    searchParams
-}: SignInProps) {
-    const { allowOauth, allowEmail, allowPassword } = getAuthTypes();
-    const viewTypes = getViewTypes();
-    const redirectMethod = getRedirectMethod();
+export default async function SignIn({ params, searchParams }: PageProps) {
+  const { allowOauth, allowEmail, allowPassword } = getAuthTypes();
+  const viewTypes = getViewTypes() as ViewPropType[]; // getViewTypes'ın doğru tipleri döndürdüğünü varsayıyoruz
+  const redirectMethod = getRedirectMethod();
 
-    let viewProp: string;
-    let preferredSignInView: string | null = null;
+  // Declare 'viewProp' with the correct type
+  let viewProp: ViewPropType;
 
-    if (typeof params.id === 'string' && viewTypes.includes(params.id)) {
-        viewProp = params.id;
-    } else {
-        preferredSignInView = cookies().get('preferredSignInView')?.value || null;
-        viewProp = getDefaultSignInView(preferredSignInView);
-        return redirect(`/dashboard/signin/${viewProp}`);
-    }
+  // Assign url id to 'viewProp' if it's a valid string and ViewTypes includes it
+  if (typeof params.id === 'string' && viewTypes.includes(params.id as ViewPropType)) {
+    viewProp = params.id as ViewPropType;
+  } else {
+    const preferredSignInView = cookies().get('preferredSignInView')?.value || null;
+    viewProp = getDefaultSignInView(preferredSignInView) as ViewPropType;
+    return redirect(`/dashboard/signin/${viewProp}`);
+  }
 
-    const supabase = createClient();
+  // Check if the user is already logged in and redirect to the account page if so
+  const supabase = createClient();
 
-    const {
-        data: { user }
-    } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-    if (user && viewProp !== 'update_password') {
-        return redirect('/dashboard/main');
-    } else if (!user && viewProp === 'update_password') {
-        return redirect('/dashboard/signin');
-    }
+  if (user && viewProp !== 'update_password') {
+    return redirect('/dashboard/main');
+  } else if (!user && viewProp === 'update_password') {
+    return redirect('/dashboard/signin');
+  }
 
-    return (
-        <DefaultAuth viewProp={viewProp}>
-            <div>
-                <AuthUI
-                    viewProp={viewProp}
-                    user={user}
-                    allowPassword={allowPassword}
-                    allowEmail={allowEmail}
-                    redirectMethod={redirectMethod}
-                    disableButton={searchParams.disable_button}
-                    allowOauth={allowOauth}
-                    preferredSignInView={preferredSignInView}
-                />
-            </div>
-        </DefaultAuth>
-    );
+  return (
+    <DefaultAuth viewProp={viewProp}>
+      <div>
+        <AuthUI
+          viewProp={viewProp}
+          user={user}
+          allowPassword={allowPassword}
+          allowEmail={allowEmail}
+          redirectMethod={redirectMethod}
+          disableButton={searchParams?.disable_button} // searchParams'ı opsiyonel olarak kullanın
+          allowOauth={allowOauth}
+        />
+      </div>
+    </DefaultAuth>
+  );
 }
