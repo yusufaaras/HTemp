@@ -14,19 +14,15 @@ interface PasswordSignInProps {
   redirectMethod: string;
 }
 
-export default function PasswordSignIn({
-  allowEmail,
-  redirectMethod
-}: PasswordSignInProps) {
-  const router = redirectMethod === 'client' ? useRouter() : null;
+export default function PasswordSignIn({ allowEmail, redirectMethod }: PasswordSignInProps) {
+  const router = useRouter(); // Koşulsuz çağrı
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    setIsSubmitting(true); // Disable the button while the request is being handled
-    await handleRequest(e, signInWithPassword, router);
-    setIsSubmitting(false);
+      setIsSubmitting(true);
+      await handleRequest(e, signInWithPassword, redirectMethod === 'client' ? router : null); // Koşulsuz kullanım
+      setIsSubmitting(false);
   };
-
   return (
     <div>
       <form

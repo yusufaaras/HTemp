@@ -11,17 +11,16 @@ interface UpdatePasswordProps {
   redirectMethod: string;
 }
 
-export default function UpdatePassword({
-  redirectMethod
-}: UpdatePasswordProps) {
-  const router = redirectMethod === 'client' ? useRouter() : null;
+export default function UpdatePassword({ redirectMethod }: UpdatePasswordProps) {
+  const router = useRouter(); // Koşulsuz çağrı
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    setIsSubmitting(true); // Disable the button while the request is being handled
-    await handleRequest(e, updatePassword, router);
-    setIsSubmitting(false);
+      setIsSubmitting(true);
+      await handleRequest(e, updatePassword, redirectMethod === 'client' ? router : null); // Koşulsuz kullanım
+      setIsSubmitting(false);
   };
+
 
   return (
     <div className="my-8">
